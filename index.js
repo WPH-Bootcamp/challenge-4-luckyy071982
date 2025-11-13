@@ -20,7 +20,7 @@ function addTodo() {
   // 5. Beri feedback ke user bahwa to-do berhasil ditambahkan
   console.log("\n");
   console.log("--- Input a new to-do item ---");
-  const zc_input = prompt("To-do: ");
+  const zc_input = prompt("Enter your to-do item: ");
 
   if (zc_input === null || zc_input.trim() === "") {
     console.log(`"${zc_input}" is not a valid to-do. Please enter some text.`);
@@ -42,7 +42,7 @@ function markTodoCompleted() {
     console.log("Your to-do list is currently empty.");
   } else {
     listTodos();
-    const zc_input = prompt("Choose number to mark as DONE: ");
+    const zc_input = prompt("Enter the number of the task to mark as DONE: ");
 
     if (
       isNaN(Number(zc_input)) ||
@@ -73,7 +73,9 @@ function deleteTodo() {
     console.log("Your to-do list is currently empty.");
   } else {
     listTodos();
-    const zc_input = prompt("Choose number to DELETE: ");
+    const zc_input = prompt(
+      "Enter the number of the task you want to DELETE: "
+    );
 
     if (
       isNaN(Number(zc_input)) ||
@@ -136,7 +138,7 @@ function runTodoApp() {
     console.log("[list]    → Show all to-do items");
     console.log("[exit]    → Exit the program");
     console.log("\n");
-    const zc_input = prompt("Input command: ");
+    const zc_input = prompt("Please enter a command from the menu: ");
 
     switch (zc_input) {
       case "add":
