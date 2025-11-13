@@ -6,6 +6,9 @@ function generateUniqueId() {
   // TODO: Implementasi fungsi untuk menghasilkan ID unik
   // Ini akan digunakan secara internal untuk setiap objek to-do
   // Contoh: Gabungan waktu saat ini dan angka acak
+  const timestamp = Date.now().toString();
+  const random = (Math.floor(Math.random() * 100) + 1).toString();
+  return timestamp + random;
 }
 
 function addTodo() {
@@ -15,6 +18,16 @@ function addTodo() {
   // 3. Buat objek to-do baru dengan properti: id (dari generateUniqueId), text, dan isCompleted (boolean, default false)
   // 4. Tambahkan objek to-do ini ke array `todos`
   // 5. Beri feedback ke user bahwa to-do berhasil ditambahkan
+  console.log("\n");
+  console.log("--- Input a new to-do item ---");
+  const zc_input = prompt("To-do: ");
+
+  if (zc_input === null || zc_input.trim() === "") {
+    console.log(`"${zc_input}" is not a valid to-do. Please enter some text.`);
+  } else {
+    todos.push({ id: generateUniqueId(), text: zc_input, isComplete: false });
+    console.log(`To-do "${zc_input}" has been added successfully.`);
+  }
 }
 
 function markTodoCompleted() {
@@ -25,6 +38,28 @@ function markTodoCompleted() {
   // 4. Ubah properti `isCompleted` dari to-do yang dipilih menjadi `true`
   // 5. Beri feedback ke user bahwa to-do berhasil ditandai selesai
   // 6. Tangani kasus jika to-do sudah selesai
+  if (todos.length === 0) {
+    console.log("Your to-do list is currently empty.");
+  } else {
+    listTodos();
+    const zc_input = prompt("Choose number to mark as DONE: ");
+
+    if (
+      isNaN(Number(zc_input)) ||
+      zc_input === null ||
+      zc_input === "" ||
+      zc_input < 1 ||
+      zc_input > todos.length
+    ) {
+      console.log(
+        `"${zc_input}" is not a valid selection. Please enter a number from the list.`
+      );
+    } else {
+      const index = zc_input - 1;
+      todos[index].isComplete = true;
+      console.log(`To-do "${todos[index].text}" has been marked as DONE.`);
+    }
+  }
 }
 
 function deleteTodo() {
@@ -34,6 +69,28 @@ function deleteTodo() {
   // 3. Validasi input: Pastikan nomor adalah angka, dalam rentang yang valid
   // 4. Hapus to-do yang dipilih dari array `todos`
   // 5. Beri feedback ke user bahwa to-do berhasil dihapus
+  if (todos.length === 0) {
+    console.log("Your to-do list is currently empty.");
+  } else {
+    listTodos();
+    const zc_input = prompt("Choose number to DELETE: ");
+
+    if (
+      isNaN(Number(zc_input)) ||
+      zc_input === null ||
+      zc_input === "" ||
+      zc_input < 1 ||
+      zc_input > todos.length
+    ) {
+      console.log(
+        `"${zc_input}" is not a valid selection. Please enter a number from the list.`
+      );
+    } else {
+      const index = zc_input - 1;
+      console.log(`To-do "${todos[index].text}" has been deleted.`);
+      todos.splice(index, 1);
+    }
+  }
 }
 
 function listTodos() {
@@ -44,12 +101,26 @@ function listTodos() {
   // 4. Untuk setiap to-do, tampilkan nomor urut, status ([DONE] atau [ACTIVE]), dan teks to-do
   //    Contoh format: "1. [ACTIVE] | Belajar JavaScript"
   // 5. Tampilkan garis penutup daftar
+  console.log("\n");
+  console.log("--- CURRENT TO-DO LIST ---");
+  if (todos.length === 0) {
+    console.log("You have no to-dos at the moment.");
+  } else {
+    for (let i = 0; i < todos.length; i++) {
+      let list = i + 1 + ". ";
+      list += todos[i].isComplete ? "[DONE]" : "[ACTIVE]";
+      list += " | " + todos[i].text;
+      console.log(list);
+    }
+  }
+  console.log("----------------------------");
 }
 
 function runTodoApp() {
   // TODO: Implementasi logika utama aplikasi (menu interaktif)
   // Ini adalah "otak" aplikasi yang terus berjalan sampai user memilih untuk keluar
   let running = true;
+
   while (running) {
     // 1. Tampilkan menu perintah yang tersedia (add, complete, delete, list, exit)
     // 2. Minta user memasukkan perintah menggunakan `prompt()`
@@ -57,6 +128,40 @@ function runTodoApp() {
     //    berdasarkan perintah yang dimasukkan user
     // 4. Tangani perintah 'exit' untuk menghentikan loop aplikasi
     // 5. Tangani input perintah yang tidak valid
+    console.log("\n");
+    console.log("--------- MAIN MENU ---------");
+    console.log("[add]     → Add a new to-do item");
+    console.log("[complete]→ Mark a to-do item as completed");
+    console.log("[delete]  → Delete a to-do item");
+    console.log("[list]    → Show all to-do items");
+    console.log("[exit]    → Exit the program");
+    console.log("\n");
+    const zc_input = prompt("Input command: ");
+
+    switch (zc_input) {
+      case "add":
+        addTodo();
+        break;
+      case "complete":
+        markTodoCompleted();
+        break;
+      case "delete":
+        deleteTodo();
+        break;
+      case "list":
+        listTodos();
+        break;
+      case "exit":
+        console.log("Thank you for using the to-do app. Goodbye!");
+        break;
+      default:
+        console.log("Unrecognized command. Please choose one from the menu.");
+        break;
+    }
+
+    if (zc_input === "exit") {
+      break;
+    }
   }
 }
 
